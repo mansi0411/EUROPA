@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUROPA</title>
+    <style>
+        @import url('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCwt6NpoRvRiEP_CVyuMNJCZhdXNGxGzgc"');
+        
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body{
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Professional Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(147, 112, 219, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .status-indicators {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        .status-text {
+            color: #00ff88;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Micro Bubbles Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .micro-bubble {
+            position: absolute;
+            border-radius: 50%;
+           background: radial-gradient(circle at 30% 30%, rgba(57, 255, 20, 0.7), rgba(0, 191, 255, 0.7),rgba(241, 186, 149, 0.7));
+
+            animation: micro-float 25s infinite linear;
+            opacity: 0;
+        }
+
+        /* Create 50 tiny bubbles */
+        .micro-bubble:nth-child(1) { left: 2%; width: 15px; height: 14px; animation-delay: 0s; animation-duration: 5s; }
+        .micro-bubble:nth-child(2) { left: 6%; width: 15px; height: 15px; animation-delay: 1s; animation-duration: 7s; }
+        .micro-bubble:nth-child(3) { left: 10%; width: 14px; height: 13px; animation-delay: 2s; animation-duration: 18s; }
+        .micro-bubble:nth-child(4) { left: 14%; width: 15px; height: 15px; animation-delay: 3s; animation-duration: 14s; }
+        .micro-bubble:nth-child(5) { left: 18%; width: 13px; height: 13px; animation-delay: 4s; animation-duration: 8s; }
+        .micro-bubble:nth-child(6) { left: 22%; width: 14px; height: 14px; animation-delay: 5s; animation-duration: 3s; }
+        .micro-bubble:nth-child(7) { left: 26%; width: 12px; height: 12px; animation-delay: 6s; animation-duration: 7s; }
+        .micro-bubble:nth-child(8) { left: 30%; width: 16px; height: 16px; animation-delay: 7s; animation-duration: 15s; }
+        .micro-bubble:nth-child(9) { left: 34%; width: 13px; height: 13px; animation-delay: 8s; animation-duration: 11s; }
+        .micro-bubble:nth-child(10) { left: 38%; width: 14px; height: 14px; animation-delay: 9s; animation-duration: 10s; }
+        .micro-bubble:nth-child(11) { left: 42%; width: 12px; height: 12px; animation-delay: 10s; animation-duration: 8s; }
+        .micro-bubble:nth-child(12) { left: 46%; width: 15px; height: 15px; animation-delay: 11s; animation-duration: 14s; }
+        .micro-bubble:nth-child(13) { left: 50%; width: 13px; height: 13px; animation-delay: 12s; animation-duration: 19s; }
+        .micro-bubble:nth-child(14) { left: 54%; width: 14px; height: 14px; animation-delay: 13s; animation-duration: 12s; }
+        .micro-bubble:nth-child(15) { left: 58%; width: 12px; height: 12px; animation-delay: 14s; animation-duration: 17s; }
+        .micro-bubble:nth-child(16) { left: 62%; width: 16px; height: 16px; animation-delay: 15s; animation-duration: 15s; }
+        .micro-bubble:nth-child(17) { left: 66%; width: 13px; height: 13px; animation-delay: 16s; animation-duration: 11s; }
+        .micro-bubble:nth-child(18) { left: 70%; width: 14px; height: 14px; animation-delay: 17s; animation-duration: 10s; }
+        .micro-bubble:nth-child(19) { left: 74%; width: 12px; height: 12px; animation-delay: 18s; animation-duration: 18s; }
+        .micro-bubble:nth-child(20) { left: 78%; width: 15px; height: 15px; animation-delay: 19s; animation-duration: 13s; }
+        .micro-bubble:nth-child(21) { left: 82%; width: 13px; height: 13px; animation-delay: 20s; animation-duration: 19s; }
+        .micro-bubble:nth-child(22) { left: 86%; width: 114px; height:14px; animation-delay: 21s; animation-duration: 12s; }
+        .micro-bubble:nth-child(23) { left: 90%; width: 12px; height: 12px; animation-delay: 22s; animation-duration: 7s; }
+        .micro-bubble:nth-child(24) { left: 94%; width: 16px; height: 16px; animation-delay: 23s; animation-duration: 16s; }
+        .micro-bubble:nth-child(25) { left: 98%; width: 13px; height: 13px; animation-delay: 24s; animation-duration: 10s; }
+        .micro-bubble:nth-child(26) { left: 4%; width: 14px; height: 14px; animation-delay: 25s; animation-duration: 1s; }
+        .micro-bubble:nth-child(27) { left: 8%; width: 12px; height: 12px; animation-delay: 26s; animation-duration: 18s; }
+        .micro-bubble:nth-child(28) { left: 12%; width: 15px; height:15px; animation-delay: 27s; animation-duration: 4s; }
+        .micro-bubble:nth-child(29) { left: 16%; width: 13px; height: 13px; animation-delay: 28s; animation-duration: 19s; }
+        .micro-bubble:nth-child(30) { left: 20%; width: 14px; height: 14px; animation-delay: 19s; animation-duration: 2s; }
+
+        @keyframes micro-float {
+            0% {
+                bottom: -10px;
+                transform: translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.6;
+            }
+            95% {
+                opacity: 0.6;
+            }
+            100% {
+                bottom: 100vh;
+                transform: translateX(-50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Chat Container */
+        .chat-container{
+            width: 100%;
+            height: calc(100vh - 140px);
+            margin-top: 60px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            font-size: 15px;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .user-chat-box, .ai-chat-box{
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            max-width: 85%;
+        }
+
+        .user-chat-box{
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .ai-chat-box{
+            align-self: flex-start;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .user-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-avatar {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .user-chat-area, .ai-chat-area{
+            padding: 16px 20px;
+            border-radius: 18px;
+            font-weight: 400;
+            line-height: 1.5;
+            position: relative;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .user-chat-area{
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            color: white;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+        }
+
+        .ai-chat-area{
+            background: rgba(255, 255, 255, 0.95);
+            color: #2c3e50;
+            border-bottom-left-radius: 6px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(147, 112, 219, 0.1);
+        }
+
+        .chooseimg{
+            max-width: 200px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        /* Professional Input Area */
+        .prompt-area{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(147, 112, 219, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 30px;
+            z-index: 100;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            max-width: 700px;
+            position: relative;
+        }
+
+        .prompt-area input{
+            width: 100%;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            outline: none;
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 25px;
+            padding: 0 20px 0 50px;
+            color: white;
+            font-size: 16px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .prompt-area input:focus{
+            border-color: rgba(147, 112, 219, 0.6);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(147, 112, 219, 0.1);
+        }
+
+        .prompt-area input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .prompt-area button{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        #submit {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .prompt-area button:hover{
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(147, 112, 219, 0.4);
+        }
+
+        .prompt-area button:active{
+            transform: scale(0.95);
+        }
+
+        /* Enhanced Loader */
+        .loader {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) { animation-delay: 0s; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .choose{
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        /* Custom Scrollbar */
+        .chat-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.5), rgba(138, 43, 226, 0.5));
+            border-radius: 3px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.7), rgba(138, 43, 226, 0.7));
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+            
+            .logo {
+                font-size: 16px;
+            }
+            
+            .chat-container {
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .user-chat-box, .ai-chat-box {
+                max-width: 95%;
+            }
+            
+            .prompt-area {
+                padding: 0 20px;
+                height: 70px;
+            }
+            
+            .prompt-area input {
+                height: 45px;
+                font-size: 15px;
+                padding-left: 45px;
+            }
+            
+            .prompt-area button {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .action-buttons {
+                gap: 8px;
+            }
+        }
+
+        /* Productivity Enhancements */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 5px;
+        }
+
+        /* Subtle Grid Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(147, 112, 219, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(147, 112, 219, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Professional Header -->
+    <div class="header">
+        <div class="logo">
+            EUROPA
+        </div>
+        <div class="status-indicators">
+            <div class="status-dot"></div>
+            <span class="status-text">Online</span>
+        </div>
+    </div>
+
+    <!-- Micro Bubbles Animation -->
+    <div class="bg-animation">
+        <!-- 30 micro bubbles -->
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+        <div class="micro-bubble"></div>
+    </div>
+
+    <div class="chat-container"> 
+        <div class="ai-chat-box">
+            <div class="chat-avatar ai-avatar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+            </div>
+            <div class="ai-chat-area">
+                Hello! I'm your AI Assistant Pro. How can I help you be more productive today?
+            </div>
+        </div>
+    </div>
+    
+    <div class="prompt-area">
+        <div class="input-wrapper">
+            <div class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
+            </div>
+            <input type="text" id="prompt" placeholder="Ask me anything...">
+        </div>
+        <div class="action-buttons">
+            <button id="image">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="9" cy="9" r="2"/>
+                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                </svg>
+                <input type="file" accept="image/*" hidden>
+            </button>
+            <button id="submit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let prompt=document.querySelector("#prompt")
+        let submitbtn=document.querySelector("#submit")
+        let chatContainer=document.querySelector(".chat-container")
+        let imagebtn=document.querySelector("#image")
+        let image=document.querySelector("#image img")
+        let imageinput=document.querySelector("#image input")
+
+        const Api_Url="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCwt6NpoRvRiEP_CVyuMNJCZhdXNGxGzgc"
+
+        let user={
+            message:null,
+            file:{
+                mime_type:null,
+                data: null 
+            }
+        }
+
+        async function generateResponse(aiChatBox) 
+        {
+            let text=aiChatBox.querySelector(".ai-chat-area")
+            let RequestOption={
+                method:"POST",
+                headers:{'Content-Type': 'application/json'},
+                body:JSON.stringify({
+                        "contents": [
+                            {"parts":[{"text": user.message},(user.file.data?[{"inline_data":user.file}]:[])
+                            ]
+                          }]
+                })
+            }
+            try{
+                let response=await fetch(Api_Url,RequestOption)
+                let data=await response.json()
+                let apiResponse=data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").trim()
+                text.innerHTML=apiResponse
+            }
+            catch(error){
+                console.log(error);
+                text.innerHTML="I apologize, but I'm having trouble processing your request right now. Please try again in a moment."
+            }
+            finally{
+                chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:"smooth"})
+                user.file={}
+            }  
+        }
+
+        function createChatBox(html,classes){
+            let div=document.createElement("div")
+            div.innerHTML=html
+            div.classList.add(classes)
+            return div
+        }
+
+        function getCurrentTime() {
+            return new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        }
+
+        function handlechatResponse(usermessage){
+            if(!usermessage.trim()) return
+            
+            user.message=usermessage
+            let html=`
+                <div class="chat-avatar user-avatar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </div>
+                <div class="user-chat-area">
+                   ${user.message}
+                   ${user.file.data?`<img src="data:${user.file.mime_type};base64,${user.file.data}" class="chooseimg" />` :""}
+                   <div class="message-time">${getCurrentTime()}</div>
+                </div>`
+            prompt.value=""
+            let userChatBox=createChatBox(html,"user-chat-box")
+            chatContainer.appendChild(userChatBox) 
+            chatContainer.scrollTo({top:chatContainer.scrollHeight,behavior:"smooth"})
+
+            setTimeout(()=>{
+                let html=`
+                    <div class="chat-avatar ai-avatar">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="ai-chat-area"> 
+                        <div class="typing-indicator">
+                            <span>AI is typing</span>
+                            <div class="loader">
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                                <div class="dot"></div>
+                            </div>
+                        </div>
+                    </div>` 
+                let aiChatBox=createChatBox(html,"ai-chat-box")
+                chatContainer.appendChild(aiChatBox)
+                generateResponse(aiChatBox)
+            },800)
+        }
+
+        prompt.addEventListener("keydown",(e)=>{
+            if(e.key=="Enter" && !e.shiftKey){
+                e.preventDefault()
+                handlechatResponse(prompt.value)
+            }
+        })
+
+        submitbtn.addEventListener("click",()=>{
+            handlechatResponse(prompt.value)
+        })
+
+        imageinput.addEventListener("change",()=>{
+            const file=imageinput.files[0]
+            if(!file) return
+            let reader=new FileReader()
+            reader.onload=(e)=>{
+                let base64string=e.target.result.split(",")[1]
+                user.file={
+                    mime_type:file.type,
+                    data: base64string 
+                }
+                // Visual feedback for image selection
+                imagebtn.style.background = 'linear-gradient(135deg, #00ff88 0%, #00cc6a 100%)'
+                setTimeout(() => {
+                    imagebtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                }, 2000)
+            }
+            reader.readAsDataURL(file)
+        })
+
+        imagebtn.addEventListener("click",()=>{
+            imagebtn.querySelector("input").click()
+        })
+
+        // Add some productivity shortcuts
+        document.addEventListener("keydown", (e) => {
+            if (e.ctrlKey && e.key === '/') {
+                e.preventDefault()
+                prompt.focus()
+            }
+        })
+    </script>
+</body>
+</html>
